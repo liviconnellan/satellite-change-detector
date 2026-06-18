@@ -10,12 +10,52 @@ def calculate_ndvi(red_path, nir_path):
     nir = rasterio.open(nir_path).read(1).astype(float) #read nir band
     return (nir - red) / (nir + red + 1e-10)
 
+st.markdown("""
+<style>
+.block-container {
+    padding-top: 1rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
 
 # creates heading
-st.title("Stellenbosch Vegetation Change Detector")
+st.markdown("""
+<h1 style='text-align: center;'>
+Stellenbosch Vegetation Change Detector
+</h1>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<p style='text-align: center; color: gray;'>
+Developed by Olivia Connellan | Stellenbosch University
+</p>
+""", unsafe_allow_html=True)
 
 # adds normal text under
-st.write("Compare Sentinel-2 NDVI images between two years.")
+st.markdown("""
+<p style='text-align: center; font-size:18px;'>
+Compare Sentinel-2 NDVI images between two years.
+</p>
+""", unsafe_allow_html=True)
+
+with st.sidebar:
+    st.title("Information")
+
+    with st.expander("About this project"):
+        st.write("""
+        This application uses Sentinel-2 satellite imagery to detect
+        vegetation changes around Stellenbosch using NDVI
+        (Normalized Difference Vegetation Index).
+        """)
+    with st.expander("How to use"):
+        st.write("""
+            1. Select two years
+            2. Adjust the change threshold
+            3. Click 'Generate Change Map'
+            4. Review vegetation gain/loss statistics
+            """)
+
 
 # creates drop down
 year1 = st.selectbox("Select first year",
@@ -77,6 +117,8 @@ if st.button("Generate Change Map"):
     for ax in axes:
         ax.axis("off")
 
+
+   
     # creates colour bar
     # im uses change map
     # ax=axes   Reserve space beside ALL THREE plots and place one colour bar there
